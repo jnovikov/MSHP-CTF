@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/static/css/app.css">
+    <link rel="stylesheet" href="/static/css/foundation.css">
+    <link rel="stylesheet" href="/static/css/foundation.min.css">
+    <script src="/static/js/vendor/jquery.js"></script>
+    <script src="/static/js/vendor/what-input.js"></script>
+    <script src="/static/js/vendor/foundation.min.js"></script>
+    <script type="text/javascript" src="/static/js/app.js"></script>
+    <meta name="csrf_token" content="{{ csrf_token() }}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta charset="UTF-8">
+    {% block title %}
+    <title>MSHP-CTF</title>
+    {% endblock %}
+</head>
+<body>
+    <nav class="top-bar" id="nav-menu">
+
+
+      <!-- Left Nav Section -->
+      <div class="top-bar-left">
+        <ul class="dropdown menu" data-dropdown-menu>
+          <li><a href="/">Главная</a></li>
+        </ul>
+      </div>
+        <div class="top-bar-left">
+            <ul class="dropdown menu" data-dropdown-menu>
+              <li><a href="/tasks">Задания</a></li>
+            </ul>
+          </div>
+      <div class="top-bar-right">
+        <ul class="dropdown menu" data-dropdown-menu>
+          <li><a href="/score">Скорборд</a></li>
+        </ul>
+      </div>
+      <div class="top-bar-right">
+        <ul class="dropdown menu" data-dropdown-menu>
+          <li><a href="/">Скорборд</a></li>
+        </ul>
+      </div>
+
+
+    </nav>
+
+
+{% block content %}{% endblock %}
+</body>
+</html>
