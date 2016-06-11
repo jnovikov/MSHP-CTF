@@ -6,7 +6,7 @@ from app.login_tools import login_required, get_base_data, login_user, logout_us
 from app.views import task_map
 view = Blueprint('view', __name__, static_folder='static', template_folder='templates')
 
-
+task_map = task_map
 
 
 @view.route('/')
@@ -30,7 +30,6 @@ def login():
 @login_required
 def get_tasks():
     context = get_base_data()
-    print(context['solved'])
     context.update(task_map=task_map)
     return render_template('tasks.html', **context)
 
