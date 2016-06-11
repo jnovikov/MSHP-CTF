@@ -25,6 +25,8 @@ def create_team(_name):
 
 def get_team_solved_tasks(_id):
     team = Team.query.filter_by(id=_id).first()
+    if team is None:
+        return 'Team not exist'
     solved = team.solved.split()
     solved = list(map(int, solved))
     return solved
