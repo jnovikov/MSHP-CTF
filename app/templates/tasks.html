@@ -9,7 +9,7 @@
     <div clas="row">
 
     <div class="medium-2 columns">
-        {% if solved.count(j[0]) != 0 %}
+        {% if j[0] in solved %}
         <div class="callout success">
         {% else %}
         <div class="callout secondary">
