@@ -3,8 +3,10 @@ from flask import render_template, request, redirect, url_for, abort, Blueprint
 from app.controllers.task_controller import get_task, check_flag, get_all_tasks
 from app.controllers.team_controller import create_team, get_team_scores
 from app.login_tools import login_required, get_base_data, login_user, logout_user
-
+from app.views import task_map
 view = Blueprint('view', __name__, static_folder='static', template_folder='templates')
+
+
 
 
 @view.route('/')
@@ -27,7 +29,6 @@ def login():
 @view.route('/tasks')
 @login_required
 def get_tasks():
-    task_map = get_all_tasks()
     context = get_base_data()
     print(context['solved'])
     context.update(task_map=task_map)
