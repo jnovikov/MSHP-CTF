@@ -22,9 +22,6 @@ class TaskParser(object):
         print(self.tasks)
         print(self.category_map)
 
-    def create_category_map(self):
+    def add_task_to_db(self):
         for i in self.tasks:
-            if i['category'] not in self.category_map.keys():
-                self.category_map[i['category']] = []
-            t = (add_task(i), i['cost'])
-            self.category_map[i['category']].append(t)
+            add_task(i)
