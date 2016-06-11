@@ -1,6 +1,6 @@
 from app.models.db_models import Team
 from app import db
-
+#IIIHA BETA
 
 def get_team(_name):
     team = Team.query.filter_by(name=_name).first()
