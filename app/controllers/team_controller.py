@@ -16,11 +16,10 @@ def get_team_id(_name):
 def create_team(_name):
     team = get_team(_name)
     if team is not None:
-        return 'Team already exist'
-    print('Adding team', _name)
+        return 'Successful login'
     db.session.add(Team(_name))
     db.session.commit()
-    return True
+    return "Team added successful"
 
 
 def get_team_solved_tasks(_id):

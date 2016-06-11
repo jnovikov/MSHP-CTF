@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for, abort, Blueprint
+from flask import render_template, request, redirect, url_for, abort, Blueprint, flash
 
 from app.controllers.task_controller import get_task, check_flag, get_all_tasks
 from app.controllers.team_controller import create_team, get_team_scores
@@ -21,7 +21,7 @@ def login():
         return render_template('login.html')
     else:
         tname = request.form['name']
-        create_team(tname)
+        flash(create_team(tname))
         login_user(tname)
         return redirect(url_for('view.index'))
 
