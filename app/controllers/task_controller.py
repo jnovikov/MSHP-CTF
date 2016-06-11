@@ -36,3 +36,13 @@ def get_task(_id):
     del task['_sa_instance_state']
     del task['flag']
     return task
+
+
+def get_all_tasks():
+    task = Task.query.all()
+    task_map = {}
+    for i in task:
+        if i.category not in task_map.keys():
+            task_map[i.category] = []
+        task_map[i.category].append((i.id , i.cost))
+    return task_map

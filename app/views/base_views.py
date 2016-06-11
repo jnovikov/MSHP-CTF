@@ -6,7 +6,6 @@ from app.controllers.team_controller import create_team, get_team_scores
 from app.login_tools import login_required, get_base_data, login_user, logout_user
 from app.views import task_map
 
-
 @app.route('/')
 def index():
     context = get_base_data()
