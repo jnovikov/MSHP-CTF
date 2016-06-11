@@ -2,7 +2,6 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import CsrfProtect
 
-
 app = Flask(__name__)
 
 app.config.from_object('config')
@@ -14,5 +13,7 @@ csrf.init_app(app)
 db = SQLAlchemy(app)
 
 
+from app.views.base_views import view
 
-from app.views import base_views
+app.register_blueprint(view)
+

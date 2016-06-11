@@ -1,18 +1,19 @@
-from flask import render_template, request, redirect, url_for, abort
+from flask import render_template, request, redirect, url_for, abort, Blueprint
 
-from app import app
-from app.controllers.task_controller import get_task, check_flag
+from app.controllers.task_controller import get_task, check_flag, get_all_tasks
 from app.controllers.team_controller import create_team, get_team_scores
 from app.login_tools import login_required, get_base_data, login_user, logout_user
-from app.views import task_map
 
-@app.route('/')
+view = Blueprint('view', __name__, static_folder='static', template_folder='templates')
+
+
+@view.route('/')
 def index():
     context = get_base_data()
     return render_template('index.html', **context)
 
 
-@app.route('/login', methods=['POST', 'GET'])
+@view.route('/login', methods=['POST', 'GET'])
 def login():
     if request.method == 'GET':
         return render_template('login.html')
@@ -20,20 +21,20 @@ def login():
         tname = request.form['name']
         create_team(tname)
         login_user(tname)
-        return redirect(url_for('index'))
+        return redirect(url_for('view.index'))
 
 
-@app.route('/tasks')
+@view.route('/tasks')
 @login_required
 def get_tasks():
-    print(task_map)
+    task_map = get_all_tasks()
     context = get_base_data()
     print(context['solved'])
     context.update(task_map=task_map)
     return render_template('tasks.html', **context)
 
 
-@app.route('/task/<_id>', methods=['POST', 'GET'])
+@view.route('/task/<_id>', methods=['POST', 'GET'])
 @login_required
 def get_task_page(_id):
     context = get_base_data()
@@ -51,20 +52,20 @@ def get_task_page(_id):
         return render_template('message.html', **context)
 
 
-@app.route('/logout')
+@view.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('view.index'))
 
 
-@app.route('/score')
+@view.route('/score')
 def scoreboard():
     context = get_base_data()
     context.update(teams=get_team_scores())
     return render_template('scores.html', **context)
 
 
-@app.route('/test')
+@view.route('/test')
 @login_required
 def test():
     get_team_scores()
