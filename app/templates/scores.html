@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% for i in teams %}
+<div>
+    <h4>{{ i.name }} / {{ i.score }}</h4>
+</div>
+{% endfor %}
+{% endblock %}
