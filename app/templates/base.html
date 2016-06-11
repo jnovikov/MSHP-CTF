@@ -24,27 +24,41 @@
       <div class="top-bar-left">
         <ul class="dropdown menu" data-dropdown-menu>
           <li><a href="/">Главная</a></li>
-        </ul>
-      </div>
-        <div class="top-bar-left">
-            <ul class="dropdown menu" data-dropdown-menu>
-              <li><a href="/tasks">Задания</a></li>
-            </ul>
-          </div>
-      <div class="top-bar-right">
-        <ul class="dropdown menu" data-dropdown-menu>
+          {% if loggedin %}
+            <li><a href="/tasks">Задания</a></li>
+          {% endif %}
           <li><a href="/score">Скорборд</a></li>
         </ul>
       </div>
       <div class="top-bar-right">
         <ul class="dropdown menu" data-dropdown-menu>
-          <li><a href="/">Скорборд</a></li>
+          {% if loggedin %}
+            <li>{{ team_name }}</li>
+            <li><a href="/logout">Выйти</a></li>
+          {% else %}
+            <li><a href="/login">Войти</a></li>
+          {% endif %}
+            <li><a href="/contact">Связаться с нами</a></li>
         </ul>
       </div>
 
 
     </nav>
 
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+
+    <div class="primary callout" data-closable>
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+        <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    {% endif %}
+    {% endwith %}
 
 {% block content %}{% endblock %}
 </body>

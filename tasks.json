@@ -1,0 +1,20 @@
+{
+  "tasks": [
+    {
+      "name": "Ucucucuga",
+      "cost": "100",
+      "category": "Stego",
+      "desc": "Olololololololo",
+      "flag": "ucuga",
+      "file": ""
+    },
+    {
+      "name": "12+13",
+      "cost": "50",
+      "category": "Stego",
+      "desc": "12 + 13 = ?",
+      "flag": "25",
+      "file": ""
+    }
+  ]
+}

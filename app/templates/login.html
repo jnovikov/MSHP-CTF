@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+  <div class="medium-6 medium-centered large-4 large-centered columns">
+
+    <form action="" method="post">
+
+      <div class="row column log-in-form">
+        <h4 class="text-center">Введите название вашей команды</h4>
+        <label>Название
+          <input type="text" name="name" placeholder="Shadow Servants">
+        </label>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+        <p class="text-center"><button type="submit" class="button expanded">Войти</button></p>
+        <p class="text-center"><a href="/report">Что-то пошло не так?</a></p>
+      </div>
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}
