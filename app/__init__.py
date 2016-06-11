@@ -12,6 +12,7 @@ csrf.init_app(app)
 
 db = SQLAlchemy(app)
 
+db.create_all()
 
 from app.views.base_views import view
 

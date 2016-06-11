@@ -1,6 +1,6 @@
 from app.models.db_models import Team
 from app import db
-#IIIHA BETA
+
 
 def get_team(_name):
     team = Team.query.filter_by(name=_name).first()
@@ -40,5 +40,6 @@ def solve_task(_id, task_id, task_score):
 
 
 def get_team_scores():
-    team = Team.query.group_by(Team.score).all()
-    return team[::-1]
+    team = Team.query.order_by(Team.score)
+    team = team[::-1]
+    return team
