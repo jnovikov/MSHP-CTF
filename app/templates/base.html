@@ -2,12 +2,11 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="/static/css/app.css">
-    <link rel="stylesheet" href="/static/css/foundation.css">
-    <link rel="stylesheet" href="/static/css/foundation.min.css">
-    <script src="/static/js/vendor/jquery.js"></script>
-    <script src="/static/js/vendor/what-input.js"></script>
-    <script src="/static/js/vendor/foundation.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="/static/bower_components/foundation-sites/dist/foundation.min.js"></script>
     <script type="text/javascript" src="/static/js/app.js"></script>
+    
     <meta name="csrf_token" content="{{ csrf_token() }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -61,5 +60,8 @@
     {% endwith %}
 
 {% block content %}{% endblock %}
+<script src="/static/bower_components/what-input/what-input.min.js"></script>
+<script src="/static/bower_components/foundation-sites/dist/foundation.min.js"></script>
+<script src="/static/js/app.js"></script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 from app.models.db_models import Team
 from app import db
-#IIIHA BETA
+
 
 def get_team(_name):
     team = Team.query.filter_by(name=_name).first()
@@ -16,11 +16,10 @@ def get_team_id(_name):
 def create_team(_name):
     team = get_team(_name)
     if team is not None:
-        return 'Team already exist'
-    print('Adding team', _name)
+        return 'Successful login'
     db.session.add(Team(_name))
     db.session.commit()
-    return True
+    return "Team added successful"
 
 
 def get_team_solved_tasks(_id):
@@ -42,5 +41,6 @@ def solve_task(_id, task_id, task_score):
 
 
 def get_team_scores():
-    team = Team.query.group_by(Team.score).all()
-    return team[::-1]
+    team = Team.query.order_by(Team.score)
+    team = team[::-1]
+    return team

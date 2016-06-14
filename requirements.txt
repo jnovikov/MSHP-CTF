@@ -2,3 +2,4 @@ flask
 Flask-WTF
 Flask-SQLAlchemy
 Flask-Limiter
+gevent
