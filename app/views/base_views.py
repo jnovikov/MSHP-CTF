@@ -3,7 +3,8 @@ from flask import render_template, request, redirect, url_for, abort, Blueprint,
 from app.controllers.task_controller import get_task, check_flag, get_all_tasks
 from app.controllers.team_controller import create_team, get_team_scores
 from app.login_tools import login_required, get_base_data, login_user, logout_user
-from app.views import task_map
+from app.views import task_map, LogoutMessage
+
 view = Blueprint('view', __name__, static_folder='static', template_folder='templates')
 
 task_map = task_map
@@ -20,7 +21,7 @@ def login():
     if request.method == 'GET':
         return render_template('login.html')
     else:
-        tname = request.form['name']
+        tname = request.form['name'].strip()
         flash(create_team(tname))
         login_user(tname)
         return redirect(url_for('view.index'))
@@ -55,6 +56,7 @@ def get_task_page(_id):
 @view.route('/logout')
 def logout():
     logout_user()
+    flash(LogoutMessage)
     return redirect(url_for('view.index'))
 
 

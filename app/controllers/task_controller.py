@@ -1,4 +1,4 @@
-from app import db
+from app import db, limiter
 from app.models.db_models import Task
 from app.controllers.team_controller import solve_task, get_team_solved_tasks
 
@@ -14,6 +14,7 @@ def add_task(dictionary):
     return task.id
 
 
+@limiter.limit("1 per second")
 def check_flag(_id, team_id, flag):
     task = Task.query.filter_by(id=_id).first()
     solved = get_team_solved_tasks(team_id)
