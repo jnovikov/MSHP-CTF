@@ -1,5 +1,6 @@
-from app.models.db_models import Team
 from app import db
+from app.models.db_models import Team
+from app.controllers import SuccessfulLogin, TeamAddedMessage, TeamNotExist
 
 
 def get_team(_name):
@@ -16,16 +17,16 @@ def get_team_id(_name):
 def create_team(_name):
     team = get_team(_name)
     if team is not None:
-        return 'Successful login'
+        return SuccessfulLogin
     db.session.add(Team(_name))
     db.session.commit()
-    return "Team added successful"
+    return TeamAddedMessage
 
 
 def get_team_solved_tasks(_id):
     team = Team.query.filter_by(id=_id).first()
     if team is None:
-        return 'Team not exist'
+        return TeamNotExist
     solved = team.solved.split()
     solved = list(map(int, solved))
     return solved
@@ -34,7 +35,7 @@ def get_team_solved_tasks(_id):
 def solve_task(_id, task_id, task_score):
     team = Team.query.filter_by(id=_id).first()
     if team is None:
-        return 'Team not exist'
+        return TeamNotExist
     team.solve_task(task_id, task_score)
     db.session.commit()
     return True
