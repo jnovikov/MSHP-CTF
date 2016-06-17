@@ -18,6 +18,8 @@ def add_task(dictionary):
 def check_flag(_id, team_id, flag):
     task = Task.query.filter_by(id=_id).first()
     solved = get_team_solved_tasks(team_id)
+    if type(solved) != list:
+        return 'TeamNotExists'
     if int(_id) in solved:
         return 'AlreadySolved'
     if task is None:
