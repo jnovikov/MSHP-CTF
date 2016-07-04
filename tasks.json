@@ -1,12 +1,12 @@
 {
   "tasks": [
     {
-      "name": "Ucucucuga",
-      "cost": "100",
-      "category": "Stego",
-      "desc": "Olololololololo",
-      "flag": "ucuga",
-      "file": ""
+      "name": "Hex and xor",
+      "cost": "200",
+      "category": "Crypto",
+      "desc": "I Love hex and xor ",
+      "flag": "MSHP_CTF_CRYPTO_TASK_ARE_COOL",
+	"file": "200_Hex and xor.zip"
     },
     {
       "name": "12+13",
@@ -15,6 +15,22 @@
       "desc": "12 + 13 = ?",
       "flag": "25",
       "file": ""
+    },
+    {
+      "name": "Hex and xor too",
+      "cost": "300",
+      "category": "Crypto",
+      "desc": "I really love hex and xor ",
+      "flag": "MSHP_CTF_Crypto_Are_Crypto_is_crypto_are_crypto",
+        "file": "300_Hex_and_xor_too.zip"
+    },
+    { 
+      "name": "Heart-shaped-square",
+      "cost": "200",
+      "category": "Crypto",
+      "desc": "I love Nirvana",
+      "flag": "MSKCTF_ALL_YOU_NEED_IS_FLAG",
+        "file": "heart-shaped-square"
     }
   ]
 }
