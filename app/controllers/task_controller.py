@@ -1,6 +1,6 @@
 from app import db, limiter
 from app.models.db_models import Task
-from app.controllers.team_controller import solve_task, get_team_solved_tasks
+from app.controllers.user_controller import solve_task, get_team_solved_tasks
 
 
 def add_task(dictionary):
@@ -19,14 +19,14 @@ def check_flag(_id, team_id, flag):
     task = Task.query.filter_by(id=_id).first()
     solved = get_team_solved_tasks(team_id)
     if int(_id) in solved:
-        return 'AlreadySolved'
+        return 'Вы уже решили этот таск'
     if task is None:
-        return 'NotExist'
+        return 'Нет такого таска'
     if task.flag == flag:
         solve_task(team_id, task.id, task.cost)
-        return "RightFlag"
+        return "Правильно!"
     else:
-        return "WrongFlag"
+        return "Неа :("
 
 
 def get_task(_id):

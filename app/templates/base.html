@@ -32,12 +32,12 @@
       <div class="top-bar-right">
         <ul class="dropdown menu" data-dropdown-menu>
           {% if loggedin %}
-            <li>{{ team_name }}</li>
+            <li>{{ login }}</li>
             <li><a href="/logout">Выйти</a></li>
           {% else %}
+            <li><a href="/register">Регистрация</a></li>
             <li><a href="/login">Войти</a></li>
           {% endif %}
-            <li><a href="/contact">Связаться с нами</a></li>
         </ul>
       </div>
 

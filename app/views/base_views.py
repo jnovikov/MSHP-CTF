@@ -1,9 +1,10 @@
 from flask import render_template, request, redirect, url_for, abort, Blueprint, flash
 
 from app.controllers.task_controller import get_task, check_flag, get_all_tasks
-from app.controllers.team_controller import create_team, get_team_scores
+from app.controllers.user_controller import add_user, check_user, get_user_scores, get_user
 from app.login_tools import login_required, get_base_data, login_user, logout_user
 from app.views import task_map, LogoutMessage
+from app.forms import LoginForm, RegisterForm
 
 view = Blueprint('view', __name__, static_folder='static', template_folder='templates')
 
@@ -18,13 +19,36 @@ def index():
 
 @view.route('/login', methods=['POST', 'GET'])
 def login():
-    if request.method == 'GET':
-        return render_template('login.html')
+    form = LoginForm()
+    if form.validate_on_submit():
+        print(form.data)
+        user = check_user(**form.data)
+        if user is None:
+            flash('Неправильный логин или пароль')
+        else:
+            login_user(user)
+            return redirect(url_for('view.get_tasks'))
     else:
-        tname = request.form['name'].strip()
-        flash(create_team(tname))
-        login_user(tname)
-        return redirect(url_for('view.index'))
+        return render_template('login.html', form=form)
+
+
+@view.route('/register', methods=['POST', 'GET'])
+def register():
+    form = RegisterForm()
+    context = dict(form=form)
+    if form.validate_on_submit():
+        b = form.data
+        del b['confirm']
+        print(b)
+        flag = add_user(b)
+        if flag:
+            login_user(get_user(form.login.data))
+            return redirect(url_for('view.get_tasks'))
+        else:
+            flash('Произошла ошибка!Напишите Николаю или Ивану о ней!!!')
+            return redirect('/register')
+    else:
+        return render_template('register.html', **context)
 
 
 @view.route('/tasks')
@@ -63,8 +87,9 @@ def logout():
 @view.route('/score')
 def scoreboard():
     context = get_base_data()
-    context.update(teams=get_team_scores())
+    context.update(teams=get_user_scores())
     return render_template('scores.html', **context)
+
 
 @view.route('/telegram')
 def telegram():

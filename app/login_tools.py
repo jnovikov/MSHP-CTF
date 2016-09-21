@@ -1,11 +1,11 @@
 from functools import wraps
 
 from flask import session, flash, redirect, url_for
-from app.controllers.team_controller import get_team_solved_tasks, get_team_id
+from app.controllers.user_controller import get_team_solved_tasks, get_user_scores, get_user_id
 
 
 def loggedin():
-    return 'team' in session
+    return 'login' in session
 
 
 def login_required(function):
@@ -20,23 +20,22 @@ def login_required(function):
     return decorated_function
 
 
-def login_user(team_name):
-    session['team'] = team_name
-    t_id = get_team_id(team_name)
+def login_user(user):
+    session['login'] = user.login
+    t_id = user.id
     session['t_id'] = t_id
-    session['solved'] = get_team_solved_tasks(t_id)
+    session['solved'] = user.solved
 
 
 def logout_user():
-    session.pop('team', None)
-    session.pop('t_id', None)
-    session.pop('solved', None)
+    session.clear()
+
 
 
 def get_base_data():
     response = {'loggedin': loggedin()}
     if loggedin():
-        response['team_name'] = session['team']
+        response['login'] = session['login']
         t_id = session['t_id']
         response['t_id'] = t_id
         response['solved'] = get_team_solved_tasks(t_id)
