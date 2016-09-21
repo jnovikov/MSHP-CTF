@@ -15,7 +15,7 @@ def login_required(function):
             return function(*args, **kwargs)
         else:
             flash('Нужно залогиниться перед этим запросом')
-            return redirect(url_for('login'))
+            return redirect(url_for('view.login'))
 
     return decorated_function
 

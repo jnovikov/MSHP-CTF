@@ -1,13 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
+{% for i in task_map.keys() %}
 <div class="row">
-    {% for i in task_map.keys() %}
-    <div class="row">
-           {{ i }}
-    </div>
+  <div class="medium-2 columns">
+   <p class="lead">{{ i }}:</p>
+  </div>
     {% for j in task_map[i] %}
-    <div clas="row">
-
     <div class="medium-2 columns">
         {% if j[0] in solved %}
         <div class="callout success">
@@ -16,13 +14,10 @@
         {% endif %}
         <a href="/task/{{ j[0] }}"> <h4><p align="center">{{ j[1]}}</p></h4></a>
         </div>
-
-
-    </div>
     </div>
     {% endfor %}
-    {% endfor %}
+    <div class="columns end"></div>
 </div>
-</div>
+{% endfor %}
 
 {% endblock %}

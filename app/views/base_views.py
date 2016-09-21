@@ -66,9 +66,6 @@ def scoreboard():
     context.update(teams=get_team_scores())
     return render_template('scores.html', **context)
 
-
-@view.route('/test')
-@login_required
-def test():
-    get_team_scores()
-    return "OK"
+@view.route('/telegram')
+def telegram():
+    return "https://telegram.me/joinchat/BC2xhwdCtCCAQ7cbHymaSw"

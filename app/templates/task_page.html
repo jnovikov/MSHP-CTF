@@ -10,7 +10,7 @@
         <h5 class="text-center">{{ category }}/{{ cost }}
         <h5 class="text-center">{{ desc }}</h5>
         {% if file != "" %}
-          <h5 class="text-center"><a href="/static/files/" {{file}}>{{fike}}</a> </h5>
+          <h5 class="text-center"><a href="/static/{{file}}">{{file}}</a> </h5>
         {% endif %}
         <label>Сдать флаг!
           <input type="text" name="flag" placeholder="flag{Ucucucuga}">
