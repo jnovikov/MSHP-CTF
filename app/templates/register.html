@@ -4,34 +4,30 @@
 
 <div class="row">
   <div class="medium-6 medium-centered large-4 large-centered columns">
-
     <form action="" method="post">
-
       <div class="row column log-in-form">
-        <h4 class="text-center">Залогинься здесь</h4>
+        <h4 class="text-center">Регистрация</h4>
         <div class="row">
                 {{form.hidden_tag()}}
-                <p>&nbsp</p>
+                <p>&nbsp;</p>
                 <div class ="row">
-                    {{ render_field_alter(form.login, "Login:", placeholder="Введите ваш новый логин") }}
-
+                    {{ render_field_alter(form.login, "Login:", placeholder="Введите логин команды") }}
                 </div>
                 <div class ="row">
-                    {{ render_field_alter(form.fio, "ФИО:",  placeholder="Введите ваше ФИО") }}
+                    {{ render_field_alter(form.fio, "ФИО:",  placeholder="Введите ФИО капитана") }}
                 </div>
                 <div class ="row">
-                    {{ render_field_alter(form.password, "Введите пароль:",  placeholder="Введите ваш новый пароль") }}
+                    {{ render_field_alter(form.password, "Введите пароль:",  placeholder="wearen0tn00bs") }}
                 </div>
                 <div class ="row">
-                    {{ render_field_alter(form.confirm, "Подтвердите пароль:",  placeholder="Повторите ваш сложный пароль") }}
+                    {{ render_field_alter(form.confirm, "Подтвердите пароль:",  placeholder="andw3canpr00ve1t") }}
                 </div>
 
         </div>
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-        <p class="text-center"><button type="submit" class="button expanded">Войти</button></p>
+        <p class="text-center"><button type="submit" class="button expanded">Регистрируй нас полностью</button></p>
       </div>
     </form>
-
   </div>
 </div>
 

@@ -25,6 +25,8 @@ def login():
         user = check_user(**form.data)
         if user is None:
             flash('Неправильный логин или пароль')
+            return render_template('login.html', form=form)
+
         else:
             login_user(user)
             return redirect(url_for('view.get_tasks'))
