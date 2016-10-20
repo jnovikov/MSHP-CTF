@@ -3,15 +3,10 @@ from flask import render_template, request, redirect, url_for, abort, Blueprint,
 from app.controllers.task_controller import get_task, check_flag, get_all_tasks
 from app.controllers.user_controller import add_user, check_user, get_user_scores, get_user
 from app.login_tools import login_required, get_base_data, login_user, logout_user
-from app.views import  LogoutMessage
+from app.views import LogoutMessage
 from app.forms import LoginForm, RegisterForm
 
 view = Blueprint('view', __name__, static_folder='static', template_folder='templates')
-
-try:
-    task_map = get_all_tasks()
-except Exception:
-    task_map = {"No task": []}
 
 
 @view.route('/')
@@ -60,6 +55,9 @@ def register():
 @login_required
 def get_tasks():
     context = get_base_data()
+    task_map = get_all_tasks()
+    if task_map is None:
+        task_map = {"No task": []}
     context.update(task_map=task_map)
     return render_template('tasks.html', **context)
 
