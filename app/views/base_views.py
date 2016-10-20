@@ -3,12 +3,15 @@ from flask import render_template, request, redirect, url_for, abort, Blueprint,
 from app.controllers.task_controller import get_task, check_flag, get_all_tasks
 from app.controllers.user_controller import add_user, check_user, get_user_scores, get_user
 from app.login_tools import login_required, get_base_data, login_user, logout_user
-from app.views import task_map, LogoutMessage
+from app.views import  LogoutMessage
 from app.forms import LoginForm, RegisterForm
 
 view = Blueprint('view', __name__, static_folder='static', template_folder='templates')
 
-task_map = task_map
+try:
+    task_map = get_all_tasks()
+except Exception:
+    task_map = {"No task": []}
 
 
 @view.route('/')
