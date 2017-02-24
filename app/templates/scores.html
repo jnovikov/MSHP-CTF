@@ -1,9 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
 
+<table>
+  <thead>
+      <tr>
+          <th>Название команды</th>
+          <th>Капитан команды(ФИО)</th>
+          <th>Результат</th>
+      </tr>
+  </thead>
+<tbody>
 {% for i in teams %}
-<div>
-    <h4>{{ i.login }} ({{ i.fio }}'s crew) / {{ i.score }}</h4>
-</div>
-{% endfor %}
+    <tr>
+            <td><a href="/user/{{i.id}}"> {{ i.login }} </a></td>
+            <td>{{ i.fio }}</td>
+            <td>{{ i.score }}</td>
+    </tr>
+        {% endfor %}
+</tbody>
+</table>
 {% endblock %}

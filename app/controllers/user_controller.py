@@ -1,6 +1,8 @@
 from app import db
+from app.controllers import TeamNotExist
+from app.models.db_models import SolvedTask
 from app.models.db_models import User
-from app.controllers import SuccessfulLogin, TeamAddedMessage, TeamNotExist
+from app.time_tools import get_current_time
 
 
 def get_user(_login):
@@ -8,7 +10,12 @@ def get_user(_login):
     return user
 
 
-def check_user(login,password):
+def get_user_by_id(_id):
+    user = User.query.filter_by(id=_id).first()
+    return user
+
+
+def check_user(login, password):
     user = User.query.filter_by(login=login, password=password).first()
     return user
 
@@ -40,11 +47,16 @@ def get_team_solved_tasks(_id):
     return solved
 
 
-def solve_task(_id, task_id, task_score):
+def solve_task(_id, task):
     user = User.query.filter_by(id=_id).first()
     if user is None:
         return TeamNotExist
-    user.solve_task(task_id, task_score)
+    solved = SolvedTask()
+    solved.task = task
+    solved.user = user
+    solved.time = get_current_time()
+    user.solve_task(task)
+    user.solved_tasks.append(solved)
     db.session.commit()
     return True
 

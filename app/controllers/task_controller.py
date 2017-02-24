@@ -15,15 +15,15 @@ def add_task(dictionary):
 
 
 @limiter.limit("1 per second")
-def check_flag(_id, team_id, flag):
+def check_flag(_id, u_id, flag):
     task = Task.query.filter_by(id=_id).first()
-    solved = get_team_solved_tasks(team_id)
+    solved = get_team_solved_tasks(u_id)
     if int(_id) in solved:
         return 'Вы уже решили этот таск'
     if task is None:
         return 'Нет такого таска'
     if task.flag == flag:
-        solve_task(team_id, task.id, task.cost)
+        solve_task(u_id, task)
         return "Правильно!"
     else:
         return "Неа :("

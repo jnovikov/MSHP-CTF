@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+  <div>
+    <h3>Просмотр профиля пользователя {{user.login}} - {{user.fio}}</h3>
+      {% if user.solved_tasks %}
+      <h4>Score = {{user.score}} </h4>
+      <table>
+          <thead>
+              <tr>
+                  <th>Название таска</th>
+                  <th>Категория таска</th>
+                  <th>Время сдачи</th>
+              </tr>
+          </thead>
+      <tbody>
+        {% for solved in user.solved_tasks %}
+        <tr>
+            <td><a href="/task/{{solved.task.id}}">{{solved.task.name}}</a></td>
+            <td>{{solved.task.category}}</td>
+            <td>{{solved.time}}</td>
+        </tr>
+        {% endfor %}
+
+      </tbody>
+        </table>
+      {% else %}
+        Пользователь еще ничего не решил :(
+      {% endif %}
+    </div>
+</div>
+
+{% endblock %}

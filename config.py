@@ -3,3 +3,4 @@ SECRET_KEY = 'you-will-never-guess'
 SALT = 'SALT'
 SQLALCHEMY_DATABASE_URI = 'sqlite:///new.db'
 SQLALCHEMY_TRACK_MODIFICATIONS = True
+SQLALCHEMY_ECHO = True

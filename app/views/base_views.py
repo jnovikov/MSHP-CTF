@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect, url_for, abort, Blueprint, flash
 
 from app.controllers.task_controller import get_task, check_flag, get_all_tasks
-from app.controllers.user_controller import add_user, check_user, get_user_scores, get_user
+from app.controllers.user_controller import add_user, check_user, get_user_scores, get_user, get_user_by_id
 from app.login_tools import login_required, get_base_data, login_user, logout_user
 from app.views import LogoutMessage
 from app.forms import LoginForm, RegisterForm
@@ -24,6 +24,7 @@ def login():
         if user is None:
             flash('Неправильный логин или пароль')
             return render_template('login.html', form=form)
+
 
         else:
             login_user(user)
@@ -74,7 +75,7 @@ def get_task_page(_id):
         return render_template('task_page.html', **context)
     else:
         usr_flag = request.form['flag']
-        message = check_flag(_id, context['t_id'], usr_flag)
+        message = check_flag(_id, context['u_id'], usr_flag)
         context = get_base_data()
         context.update(message=message)
         return render_template('message.html', **context)
@@ -97,3 +98,11 @@ def scoreboard():
 @view.route('/telegram')
 def telegram():
     return "https://telegram.me/joinchat/BC2xhwdCtCCAQ7cbHymaSw"
+
+
+@view.route('/user/<user_id>')
+def user_view(user_id):
+    context = get_base_data()
+    user = get_user_by_id(user_id)
+    context['user'] = user
+    return render_template('user_page.html',**context)

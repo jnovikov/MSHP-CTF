@@ -23,7 +23,7 @@ def login_required(function):
 def login_user(user):
     session['login'] = user.login
     t_id = user.id
-    session['t_id'] = t_id
+    session['u_id'] = t_id
     session['solved'] = user.solved
 
 
@@ -36,7 +36,7 @@ def get_base_data():
     response = {'loggedin': loggedin()}
     if loggedin():
         response['login'] = session['login']
-        t_id = session['t_id']
-        response['t_id'] = t_id
+        t_id = session['u_id']
+        response['u_id'] = t_id
         response['solved'] = get_team_solved_tasks(t_id)
     return response
