@@ -1,0 +1,12 @@
+{
+  "tasks": [
+     {
+       "name": "Matryoshka",
+       "cost": "300",
+       "category": "Stego",
+       "desc": "Find the flag something here",
+       "flag": "FLAG_G0D_DAMN_BR0_U_R_S0_C00L_DECRYPTOR",
+       "file": "image_1cfb4379b82626f0b5d28129ddb5918f8c010aa8.jpg.png"
+     }
+  ]
+}

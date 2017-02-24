@@ -10,7 +10,7 @@ class Task(db.Model):
     file = db.Column(db.String)
     flag = db.Column(db.String)
 
-    def __init__(self, cost, desc, file, flag, category, name):
+    def __init__(self, cost=0, desc="", file="", flag="", category="", name=""):
         self.cost = cost
         self.desc = desc
         self.file = file
@@ -31,7 +31,7 @@ class User(db.Model):
     score = db.Column(db.Integer)
     solved_tasks = db.relationship("SolvedTask", backref='User', lazy="dynamic")
 
-    def __init__(self, login, password, fio):
+    def __init__(self, login="", password="", fio=""):
         self.login = login
         self.password = password
         self.fio = fio
