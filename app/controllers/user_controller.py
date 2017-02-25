@@ -42,6 +42,8 @@ def get_team_solved_tasks(_id):
     user = User.query.filter_by(id=_id).first()
     if user is None:
         return TeamNotExist
+    if user.solved is None:
+        return []
     solved = user.solved.split()
     solved = list(map(int, solved))
     return solved
