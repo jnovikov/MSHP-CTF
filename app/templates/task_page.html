@@ -6,9 +6,9 @@
     <form action="" method="post">
 
       <div class="row column log-in-form">
-        <h4 class="text-center">{{ name }}</h4>
+        <h4 class="text-center">{{ name|safe }}</h4>
         <h5 class="text-center">{{ category }}/{{ cost }}
-        <h5 class="text-center">{{ desc }}</h5>
+        <h5 class="text-center">{{ desc|safe }}</h5>
         {% if file != "" %}
           <h5 class="text-center"><a href="/static/{{file}}">{{file}}</a> </h5>
         {% endif %}
