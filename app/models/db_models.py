@@ -9,14 +9,16 @@ class Task(db.Model):
     desc = db.Column(db.String)
     file = db.Column(db.String)
     flag = db.Column(db.String)
+    active = db.Column(db.Boolean)
 
-    def __init__(self, cost=0, desc="", file="", flag="", category="", name=""):
+    def __init__(self, cost=0, desc="", file="", flag="", category="", name="",active=True):
         self.cost = cost
         self.desc = desc
         self.file = file
         self.flag = flag
         self.category = category
         self.name = name
+        self.active = active
 
     def __repr__(self):
         return '<Task %r>' % self.name

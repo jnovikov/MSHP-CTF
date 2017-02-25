@@ -40,7 +40,7 @@ def get_task(_id):
 
 
 def get_all_tasks():
-    task = Task.query.all()
+    task = Task.query.filter_by(active=True).all()
     task_map = {}
     for i in task:
         if i.category not in task_map.keys():

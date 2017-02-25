@@ -68,7 +68,7 @@ def get_tasks():
 def get_task_page(_id):
     context = get_base_data()
     task = get_task(_id)
-    if task is False:
+    if task is False or not task['active']:
         abort(404)
     if request.method == 'GET':
         context.update(task)
@@ -105,4 +105,4 @@ def user_view(user_id):
     context = get_base_data()
     user = get_user_by_id(user_id)
     context['user'] = user
-    return render_template('user_page.html',**context)
+    return render_template('user_page.html', **context)
