@@ -2,4 +2,5 @@ flask
 Flask-WTF
 Flask-SQLAlchemy
 Flask-Limiter
+Flask-admin
 gevent
