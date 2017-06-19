@@ -1,5 +1,6 @@
 from flask import Blueprint, g, render_template, abort
 
+from app import limiter
 from app.controllers.contest_controller import get_contests_list
 from app.controllers.task_controller import get_all_tasks, get_tasks_by_contest_id
 from app.login_tools import get_base_data
@@ -9,6 +10,7 @@ contest = Blueprint('contest_view', __name__, static_folder='static', template_f
 
 
 @contest.route('/')
+@limiter.limit("1 per second")
 def list_contests():
     context = get_base_data()
     context.update(dict(contests=get_contests_list()))
@@ -16,14 +18,13 @@ def list_contests():
 
 
 @contest.route('/<c_id>')
+@limiter.limit("1 per second")
 def contest_detail(c_id):
     context = get_base_data()
     curr_contest = Contest.query.get(int(c_id))
     if not curr_contest.is_active():
         abort(404)
     task_map = get_tasks_by_contest_id(curr_contest)
-    if task_map is None:
-        task_map = {"No task": []}
     context.update(task_map=task_map)
     return render_template('tasks.html', **context)
 

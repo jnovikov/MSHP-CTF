@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+{% if contests %}
 <div class="row">
   <div class="medium-6 medium-centered large-4 large-centered columns">
       {% for contest in contests %}
@@ -13,6 +14,9 @@
 
   </div>
 </div>
+{% else %}
+    Контестов еще нет. Возможно они будут позже
+{% endif %}
 
 {#{% for i in task_map.keys() %}#}
 {#<div class="row">#}

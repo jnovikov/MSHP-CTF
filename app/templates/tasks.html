@@ -1,23 +1,26 @@
 {% extends "base.html" %}
 {% block content %}
-{% for i in task_map.keys() %}
-<div class="row">
-  <div class="medium-2 columns">
-   <p class="lead">{{ i }}:</p>
-  </div>
-    {% for j in task_map[i] %}
-    <div class="medium-2 columns">
-        {% if j[0] in solved %}
-        <div class="callout success">
-        {% else %}
-        <div class="callout secondary">
-        {% endif %}
-        <a href="/task/{{ j[0] }}"> <h4><p align="center">{{ j[1]}}</p></h4></a>
+{% if task_map %}
+    {% for i in task_map.keys() %}
+    <div class="row">
+      <div class="medium-2 columns">
+       <p class="lead">{{ i }}:</p>
+      </div>
+        {% for j in task_map[i] %}
+        <div class="medium-2 columns">
+            {% if j[0] in solved %}
+            <div class="callout success">
+            {% else %}
+            <div class="callout secondary">
+            {% endif %}
+            <a href="/task/{{ j[0] }}"> <h4><p align="center">{{ j[1]}}</p></h4></a>
+            </div>
         </div>
+        {% endfor %}
+        <div class="columns end"></div>
     </div>
     {% endfor %}
-    <div class="columns end"></div>
-</div>
-{% endfor %}
-
+{% else %}
+    <h2 style="width: 100%;margin-top: 20%; text-align: center;">Тасков еще нет. Возможно они будут позже</h2>
+{% endif %}
 {% endblock %}

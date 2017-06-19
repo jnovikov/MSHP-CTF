@@ -1,5 +1,6 @@
 from flask import render_template, request, redirect, url_for, abort, Blueprint, flash
 
+from app import limiter
 from app.controllers.task_controller import get_task, check_flag, get_all_tasks
 from app.controllers.user_controller import add_user, check_user, get_user_scores, get_user, get_user_by_id
 from app.login_tools import login_required, get_base_data, login_user, logout_user
@@ -64,6 +65,7 @@ def get_tasks():
 
 
 @view.route('/task/<_id>', methods=['POST', 'GET'])
+@limiter.limit("1 per second")
 @login_required
 def get_task_page(_id):
     context = get_base_data()
