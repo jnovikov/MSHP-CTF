@@ -1,5 +1,5 @@
 from app import db, limiter
-from app.models.db_models import Task
+from app.models.db_models import Task, Contest, ContestTask
 from app.controllers.user_controller import solve_task, get_team_solved_tasks
 
 
@@ -32,7 +32,7 @@ def check_flag(_id, u_id, flag):
 def get_task(_id):
     task = Task.query.filter_by(id=_id).first()
     if task is None:
-        return False
+        return None
     task = task.__dict__
     del task['_sa_instance_state']
     del task['flag']
@@ -40,10 +40,24 @@ def get_task(_id):
 
 
 def get_all_tasks():
-    task = Task.query.filter_by(active=True).all()
+    tasks = Task.query.filter_by(active=True).all()
+    return get_task_map(tasks)
+
+
+def get_tasks_by_contest_id(contest):
+    # tasks = Task.query.filter_by(active=True).join(ContestTask.query.filter_by(id=c_id)).all()
+    try:
+        tasks = Task.query.filter_by(active=True).join(contest.contest_tasks).all()
+        # tasks = Task.query.filter_by(active=True).join(Contest.query.get(int(c_id)).contest_tasks)
+    except AttributeError:
+        return None
+    else:
+        return get_task_map(tasks)
+
+def get_task_map(task):
     task_map = {}
     for i in task:
         if i.category not in task_map.keys():
             task_map[i.category] = []
-        task_map[i.category].append((i.id , i.cost))
+        task_map[i.category].append((i.id, i.cost))
     return task_map

@@ -20,12 +20,11 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         print(form.data)
+        del form['csrf_token']
         user = check_user(**form.data)
         if user is None:
             flash('Неправильный логин или пароль')
             return render_template('login.html', form=form)
-
-
         else:
             login_user(user)
             return redirect(url_for('view.get_tasks'))
@@ -40,6 +39,7 @@ def register():
     if form.validate_on_submit():
         b = form.data
         del b['confirm']
+        del b['csrf_token']
         print(b)
         flag = add_user(b)
         if flag:
@@ -68,7 +68,7 @@ def get_tasks():
 def get_task_page(_id):
     context = get_base_data()
     task = get_task(_id)
-    if task is False or not task['active']:
+    if not task or not task['active']:
         abort(404)
     if request.method == 'GET':
         context.update(task)
@@ -106,3 +106,8 @@ def user_view(user_id):
     user = get_user_by_id(user_id)
     context['user'] = user
     return render_template('user_page.html', **context)
+
+
+@view.route('/report')
+def report_view():
+    return render_template('report.html')

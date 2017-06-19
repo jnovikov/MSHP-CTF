@@ -4,16 +4,16 @@
 <div class="row">
   <div class="medium-6 medium-centered large-4 large-centered columns">
 
-    <form action="" method="post">
+    <form action="" class="log-in-form" method="post">
 
-      <div class="row column log-in-form">
+{#      <div class="row column ">#}
         <h4 class="text-center">Добро пожаловать</h4>
           {{ render_field_alter(form.login, "Логин:", placeholder="Ваш логин:") }}
           {{ render_field_alter(form.password, "Пароль:", placeholder="Ваш пароль:") }}
 
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
         <p class="text-center"><button type="submit" class="button expanded">Войти</button></p>
-      </div>
+{#      </div>#}
     </form>
 
   </div>

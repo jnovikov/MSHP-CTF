@@ -4,29 +4,29 @@
 
 <div class="row">
   <div class="medium-6 medium-centered large-4 large-centered columns">
-    <form action="" method="post">
-      <div class="row column log-in-form">
+    <form action="" method="post" class="log-in-form">
+{#      <div class="row column ">#}
         <h4 class="text-center">Регистрация</h4>
-        <div class="row">
+{#        <div class="row">#}
                 {{form.hidden_tag()}}
                 <p>&nbsp;</p>
-                <div class ="row">
+{#                <div class ="row">#}
                     {{ render_field_alter(form.login, "Login:", placeholder="Введите логин команды") }}
-                </div>
-                <div class ="row">
+{#                </div>#}
+{#                <div class ="row">#}
                     {{ render_field_alter(form.fio, "ФИО:",  placeholder="Введите ФИО капитана") }}
-                </div>
-                <div class ="row">
+{#                </div>#}
+{#                <div class ="row">#}
                     {{ render_field_alter(form.password, "Введите пароль:",  placeholder="wearen0tn00bs") }}
-                </div>
-                <div class ="row">
+{#                </div>#}
+{#                <div class ="row">#}
                     {{ render_field_alter(form.confirm, "Подтвердите пароль:",  placeholder="andw3canpr00ve1t") }}
-                </div>
+{#                </div>#}
 
-        </div>
+{#        </div>#}
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
         <p class="text-center"><button type="submit" class="button expanded">Регистрируй нас полностью</button></p>
-      </div>
+{#      </div>#}
     </form>
   </div>
 </div>

@@ -1,4 +1,4 @@
-from flask_wtf import Form
+from flask_wtf import Form, FlaskForm
 from wtforms import StringField, PasswordField
 from wtforms import ValidationError, validators
 
@@ -14,12 +14,12 @@ def validate_name(Form, field):
         raise ValidationError(LoginAlreadyUseMessage)
 
 
-class LoginForm(Form):
+class LoginForm(FlaskForm):
     login = StringField('login', [validators.length(min=1, max=25, message=FieldIsRequiredMessage)])
     password = PasswordField('password', [validators.length(min=1, message=FieldIsRequiredMessage)])
 
 
-class RegisterForm(Form):
+class RegisterForm(FlaskForm):
     login = StringField('login', [validators.length(min=1, message=FieldIsRequiredMessage), validate_name])
     password = PasswordField('password', [validators.length(min=1, message=FieldIsRequiredMessage)])
     fio = StringField('fio', [validators.length(min=1, message=FieldIsRequiredMessage)])

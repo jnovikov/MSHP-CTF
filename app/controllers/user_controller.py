@@ -59,6 +59,7 @@ def solve_task(_id, task):
     solved.time = get_current_time()
     user.solve_task(task)
     user.solved_tasks.append(solved)
+    db.session.add(solved)
     db.session.commit()
     return True
 

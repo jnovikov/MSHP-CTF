@@ -31,7 +31,6 @@ def logout_user():
     session.clear()
 
 
-
 def get_base_data():
     response = {'loggedin': loggedin()}
     if loggedin():

@@ -1,4 +1,32 @@
+from flask import url_for
 from app import db
+
+
+class Contest(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+    description = db.Column(db.String)
+    active = db.Column(db.Boolean)
+    contest_tasks = db.relationship("ContestTask", backref='Contest', lazy="dynamic")
+
+    def __init__(self, name=''):
+        self.name = name
+
+    def get_link(self):
+        return url_for('contest_view.contest_detail', c_id=self.id)
+
+    def __repr__(self):
+        return '<Contest {}>'.format(self.name)
+
+    def is_active(self):
+        return self.active
+
+
+class ContestTask(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    contest_id = db.Column(db.Integer, db.ForeignKey("contest.id"))
+    task_id = db.Column(db.Integer, db.ForeignKey('task.id'))
+    task = db.relationship('Task', uselist=False)
 
 
 class Task(db.Model):
@@ -11,7 +39,7 @@ class Task(db.Model):
     flag = db.Column(db.String)
     active = db.Column(db.Boolean)
 
-    def __init__(self, cost=0, desc="", file="", flag="", category="", name="",active=True):
+    def __init__(self, cost=0, desc="", file="", flag="", category="", name="", active=True):
         self.cost = cost
         self.desc = desc
         self.file = file
@@ -21,7 +49,7 @@ class Task(db.Model):
         self.active = active
 
     def __repr__(self):
-        return '<Task %r>' % self.name
+        return '<Task {} {}-{}>'.format(self.name, self.category, self.cost)
 
 
 class User(db.Model):
@@ -44,13 +72,15 @@ class User(db.Model):
         self.score += task.cost
         self.solved += (' ' + str(task.id))
 
+    def __repr__(self):
+        return '<User {}>'.format(self.login)
+
 
 class SolvedTask(db.Model):
-    id = db.Column(db.Integer,primary_key=True)
-    user = db.Column(db.Integer, db.ForeignKey("user.id"))
-    task_id = db.Column(db.Integer, db.ForeignKey('task.id'))
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    # user = db.relationship('User', uselist=False)
+    task_id = db.Column(db.Integer, db.ForeignKey("task.id"))
     task = db.relationship('Task', uselist=False)
     time = db.Column(db.String)
 
-    def __init__(self):
-        pass
