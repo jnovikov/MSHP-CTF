@@ -28,7 +28,7 @@ def login():
             return render_template('login.html', form=form)
         else:
             login_user(user)
-            return redirect(url_for('view.get_tasks'))
+            return redirect(url_for('contest_view.list_contests'))
     else:
         return render_template('login.html', form=form)
 
@@ -45,7 +45,7 @@ def register():
         flag = add_user(b)
         if flag:
             login_user(get_user(form.login.data))
-            return redirect(url_for('view.get_tasks'))
+            return redirect(url_for('contest_view.list_contests'))
         else:
             flash('Произошла ошибка!Напишите Николаю или Ивану о ней!!!')
             return redirect('/register')
@@ -53,15 +53,15 @@ def register():
         return render_template('register.html', **context)
 
 
-@view.route('/tasks')
-@login_required
-def get_tasks():
-    context = get_base_data()
-    task_map = get_all_tasks()
-    if task_map is None:
-        task_map = {"No task": []}
-    context.update(task_map=task_map)
-    return render_template('tasks.html', **context)
+# @view.route('/tasks')
+# @login_required
+# def get_tasks():
+#     context = get_base_data()
+#     task_map = get_all_tasks()
+#     if task_map is None:
+#         task_map = {"No task": []}
+#     context.update(task_map=task_map)
+#     return render_template('tasks.html', **context)
 
 
 @view.route('/task/<_id>', methods=['POST', 'GET'])
