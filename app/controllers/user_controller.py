@@ -65,4 +65,4 @@ def solve_task(_id, task):
 
 
 def get_user_scores():
-    return User.query.order_by(-User.score)
+    return User.query.filter_by(active=True).order_by(-User.score)
