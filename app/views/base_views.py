@@ -26,6 +26,9 @@ def login():
         if user is None:
             flash('Неправильный логин или пароль')
             return render_template('login.html', form=form)
+        if not user.active:
+            flash("Пользователь неактивен")
+            return render_template('login.html',form=form)
         else:
             login_user(user)
             return redirect(url_for('contest_view.list_contests'))
@@ -44,8 +47,8 @@ def register():
         print(b)
         flag = add_user(b)
         if flag:
-            login_user(get_user(form.login.data))
-            return redirect(url_for('contest_view.list_contests'))
+            # login_user(get_user(form.login.data))
+            return redirect('/login')
         else:
             flash('Произошла ошибка!Напишите Николаю или Ивану о ней!!!')
             return redirect('/register')

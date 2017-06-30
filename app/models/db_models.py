@@ -59,6 +59,7 @@ class User(db.Model):
     fio = db.Column(db.String)
     solved = db.Column(db.String)
     score = db.Column(db.Integer)
+    active = db.Column(db.Boolean)
     solved_tasks = db.relationship("SolvedTask", backref='User', lazy="dynamic")
 
     def __init__(self, login="", password="", fio=""):
@@ -66,6 +67,7 @@ class User(db.Model):
         self.password = password
         self.fio = fio
         self.score = 0
+        self.active = False
         self.solved = ""
 
     def solve_task(self, task):
