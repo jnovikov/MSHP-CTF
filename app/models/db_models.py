@@ -68,7 +68,7 @@ class User(db.Model):
         self.fio = fio
         self.score = 0
         self.active = False
-        self.solved = ""
+        self.solved = " "
 
     def solve_task(self, task):
         self.score += task.cost
