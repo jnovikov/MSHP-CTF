@@ -67,7 +67,7 @@ class User(db.Model):
         self.password = password
         self.fio = fio
         self.score = 0
-        self.active = True
+        self.active = False
         self.solved = " "
 
     def solve_task(self, task):
