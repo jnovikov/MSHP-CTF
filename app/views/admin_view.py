@@ -28,7 +28,7 @@ class ContestView(MyModelView):
 class TaskModelView(MyModelView):
     create_modal = True
     edit_modal = True
-    column_editable_list = ['name', 'cost', 'category', 'flag', 'file', 'active']
+    column_editable_list = ['name', 'cost', 'category', 'flag', 'file', 'active','desc']
     column_searchable_list = column_editable_list
 
 
