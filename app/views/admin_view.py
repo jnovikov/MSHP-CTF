@@ -11,8 +11,8 @@ class MyModelView(ModelView):
     column_editable_list = []
 
     def is_accessible(self):
-        print(session)
-        return session['login'] == 'admin'
+        login = session.get('login','')
+        return login == 'admin'
 
     def inaccessible_callback(self, name, **kwargs):
         # redirect to login page if user doesn't have access
@@ -29,7 +29,7 @@ class ContestView(MyModelView):
 class TaskModelView(MyModelView):
     create_modal = True
     edit_modal = True
-    column_editable_list = ['name', 'cost', 'category', 'flag', 'file', 'active','desc']
+    column_editable_list = ['name', 'cost', 'category', 'flag', 'file', 'active', 'desc']
     column_searchable_list = column_editable_list
 
 
@@ -38,11 +38,21 @@ class ContestTaskView(MyModelView):
     edit_modal = True
 
 
+class FileViewWithAuth(FileAdmin):
+    def is_accessible(self):
+        login = session.get('login', '')
+        return login == 'admin'
+
+    def inaccessible_callback(self, name, **kwargs):
+        # redirect to login page if user doesn't have access
+        print('why??')
+        return redirect('/')
+
+
 admin.add_view(MyModelView(User, db.session))
 admin.add_view(TaskModelView(Task, db.session))
 admin.add_view(MyModelView(SolvedTask, db.session))
 admin.add_view(ContestView(Contest, db.session))
 admin.add_view(ContestTaskView(ContestTask, db.session))
 
-
-admin.add_view(FileAdmin(app.static_folder, '/static/', name='Static files'))
+admin.add_view(FileViewWithAuth(app.static_folder, '/static/', name='Static files'))
