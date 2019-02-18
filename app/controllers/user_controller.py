@@ -1,7 +1,7 @@
 from app import db
 from app.controllers import TeamNotExist
 from app.models.db_models import SolvedTask
-from app.models.db_models import User
+from app.models.db_models import User, Group
 from app.time_tools import get_current_time
 
 
@@ -64,5 +64,13 @@ def solve_task(_id, task):
     return True
 
 
-def get_user_scores():
-    return User.query.filter_by(active=True).order_by(-User.score)
+def get_user_scores(group_id=None):
+    query = User.query.filter_by(active=True)
+    if group_id:
+        query = query.join(Group.users).filter(Group.id == group_id)
+
+    return query.order_by(-User.score)
+
+
+def get_all_groups():
+    return Group.query.all()

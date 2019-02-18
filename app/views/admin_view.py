@@ -3,7 +3,7 @@ from flask import session
 from flask_admin.contrib.fileadmin import FileAdmin
 from app import app, admin, db
 
-from app.models.db_models import User, Task, SolvedTask, Contest, ContestTask
+from app.models.db_models import User, Task, SolvedTask, Contest, ContestTask, Group
 from flask_admin.contrib.sqla import ModelView
 
 
@@ -54,5 +54,6 @@ admin.add_view(TaskModelView(Task, db.session))
 admin.add_view(MyModelView(SolvedTask, db.session))
 admin.add_view(ContestView(Contest, db.session))
 admin.add_view(ContestTaskView(ContestTask, db.session))
+admin.add_view(MyModelView(Group, db.session))
 
 admin.add_view(FileViewWithAuth(app.static_folder, '/static/', name='Static files'))

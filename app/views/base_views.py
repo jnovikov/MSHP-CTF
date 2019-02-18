@@ -2,7 +2,7 @@ from flask import render_template, request, redirect, url_for, abort, Blueprint,
 
 from app import limiter
 from app.controllers.task_controller import get_task, check_flag, get_all_tasks
-from app.controllers.user_controller import add_user, check_user, get_user_scores, get_user, get_user_by_id
+from app.controllers.user_controller import add_user, check_user, get_user_scores, get_user, get_user_by_id, get_all_groups
 from app.login_tools import login_required, get_base_data, login_user, logout_user
 from app.views import LogoutMessage
 from app.forms import LoginForm, RegisterForm
@@ -28,7 +28,7 @@ def login():
             return render_template('login.html', form=form)
         if not user.active:
             flash("Пользователь неактивен")
-            return render_template('login.html',form=form)
+            return render_template('login.html', form=form)
         else:
             login_user(user)
             return redirect(url_for('contest_view.list_contests'))
@@ -94,9 +94,10 @@ def logout():
 
 
 @view.route('/score')
-def scoreboard():
+def scoreboard(group_id=None):
     context = get_base_data()
-    context.update(teams=get_user_scores())
+    group_id = request.args.get("group_id")
+    context.update(teams=get_user_scores(group_id=group_id))
     return render_template('scores.html', **context)
 
 
@@ -116,3 +117,10 @@ def user_view(user_id):
 @view.route('/report')
 def report_view():
     return render_template('report.html')
+
+
+@view.route('/groups')
+def groups_view():
+    context = get_base_data()
+    context['groups'] = get_all_groups()
+    return render_template("groups.html", **context)

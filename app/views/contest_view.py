@@ -10,7 +10,7 @@ contest = Blueprint('contest_view', __name__, static_folder='static', template_f
 
 
 @contest.route('/')
-@limiter.limit("1 per second")
+@limiter.limit("10 per second")
 def list_contests():
     context = get_base_data()
     context.update(dict(contests=get_contests_list()))
@@ -18,7 +18,7 @@ def list_contests():
 
 
 @contest.route('/<c_id>')
-@limiter.limit("1 per second")
+@limiter.limit("10 per second")
 def contest_detail(c_id):
     context = get_base_data()
     curr_contest = Contest.query.get(int(c_id))

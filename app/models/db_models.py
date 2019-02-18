@@ -86,3 +86,17 @@ class SolvedTask(db.Model):
     task = db.relationship('Task', uselist=False)
     time = db.Column(db.String)
 
+
+group_identifier = db.Table('group_identifier',
+                            db.Column('group_id', db.Integer, db.ForeignKey('group.id')),
+                            db.Column('user_id', db.Integer, db.ForeignKey('user.id'))
+                            )
+
+
+class Group(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+    users = db.relationship("User", secondary=group_identifier)
+
+    def get_score_link(self):
+        return url_for('view.scoreboard', group_id=self.id)
