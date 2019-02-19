@@ -6,14 +6,15 @@
       <div class="medium-2 columns">
        <p class="lead">{{ i }}:</p>
       </div>
-        {% for j in task_map[i] %}
+        {% for task in task_map[i] %}
         <div class="medium-2 columns">
-            {% if j[0] in solved %}
+            {% if task.id in solved %}
             <div class="callout success">
             {% else %}
             <div class="callout secondary">
             {% endif %}
-            <a href="/task/{{ j[0] }}"> <h4><p align="center">{{ j[1]}}</p></h4></a>
+            <a href="/task/{{ task.id }}"> <h4><p align="center">{{task.cost}}</p></h4></a>
+            <p align="center">Солвов : {{ task.solves_num }}</p>
             </div>
         </div>
         {% endfor %}

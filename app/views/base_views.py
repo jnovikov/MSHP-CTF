@@ -1,11 +1,11 @@
 from flask import render_template, request, redirect, url_for, abort, Blueprint, flash
 
-from app import limiter
-from app.controllers.task_controller import get_task, check_flag, get_all_tasks
-from app.controllers.user_controller import add_user, check_user, get_user_scores, get_user, get_user_by_id, get_all_groups
+from app import limiter, app
+from app.controllers.task_controller import get_task, check_flag, get_solved_task_builder
+from app.controllers.user_controller import add_user, check_user, get_user_scores, get_user_by_id, get_all_groups
+from app.forms import LoginForm, RegisterForm
 from app.login_tools import login_required, get_base_data, login_user, logout_user
 from app.views import LogoutMessage
-from app.forms import LoginForm, RegisterForm
 
 view = Blueprint('view', __name__, static_folder='static', template_folder='templates')
 
@@ -68,7 +68,7 @@ def register():
 
 
 @view.route('/task/<_id>', methods=['POST', 'GET'])
-@limiter.limit("1 per second")
+@limiter.limit("10 per second")
 @login_required
 def get_task_page(_id):
     context = get_base_data()
@@ -77,6 +77,8 @@ def get_task_page(_id):
         abort(404)
     if request.method == 'GET':
         context.update(task)
+        first_blood_users_show = app.config.get('FIRST_BLOOD_SHOW_COUNT') or 3
+        context['solved'] = get_solved_task_builder((_id,)).limit(first_blood_users_show).all()
         return render_template('task_page.html', **context)
     else:
         usr_flag = request.form['flag']
@@ -84,6 +86,19 @@ def get_task_page(_id):
         context = get_base_data()
         context.update(message=message)
         return render_template('message.html', **context)
+
+
+@view.route('/task/<_id>/solvers')
+@limiter.limit("10 per second")
+@login_required
+def get_solvers_page(_id):
+    context = get_base_data()
+    task = get_task(_id)
+    if not task or not task['active']:
+        abort(404)
+    context.update(task)
+    context['solved'] = get_solved_task_builder((_id,)).all()
+    return render_template("solvers.html", **context)
 
 
 @view.route('/logout')

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="row">
+        <div>
+            <h3>Солверы таска <a href="{{ url_for('view.get_task_page',_id=id) }}">{{ name|safe }}</a></h3>
+            {% if solved %}
+                <h4>Последние {{ solved | count }} солвов </h4>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Юзер</th>
+                        <th>ФИО</th>
+                        <th>Время сдачи</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for solve in solved %}
+                        <tr>
+                            <td><a href="/user/{{ solve.User.id }}">{{ solve.User.login }}</a></td>
+                            <td>{{ solve.User.fio }}</td>
+                            <td>{{ solve.time }}</td>
+                        </tr>
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+            {% else %}
+                Солвов еще нет
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,8 +1,8 @@
-from flask import Blueprint, g, render_template, abort
+from flask import Blueprint, render_template, abort
 
 from app import limiter
 from app.controllers.contest_controller import get_contests_list
-from app.controllers.task_controller import get_all_tasks, get_tasks_by_contest_id
+from app.controllers.task_controller import get_tasks_by_contest_id
 from app.login_tools import get_base_data
 from app.models.db_models import Contest
 

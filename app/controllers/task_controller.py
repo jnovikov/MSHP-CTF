@@ -1,6 +1,8 @@
 from app import db, limiter
-from app.models.db_models import Task, Contest, ContestTask
+from app.models.db_models import Task, Contest, ContestTask, SolvedTask
 from app.controllers.user_controller import solve_task, get_team_solved_tasks
+from sqlalchemy import func
+from collections import defaultdict
 
 
 def add_task(dictionary):
@@ -14,7 +16,6 @@ def add_task(dictionary):
     return task.id
 
 
-@limiter.limit("1 per second")
 def check_flag(_id, u_id, flag):
     task = Task.query.filter_by(id=_id).first()
     solved = get_team_solved_tasks(u_id)
@@ -39,25 +40,37 @@ def get_task(_id):
     return task
 
 
-def get_all_tasks():
-    tasks = Task.query.filter_by(active=True).all()
-    return get_task_map(tasks)
+def get_solved_task_builder(task_ids, sort=True):
+    query = SolvedTask.query.filter(SolvedTask.task_id.in_(task_ids))
+    if sort:
+        query = query.order_by(SolvedTask.time)
+    return query
 
 
 def get_tasks_by_contest_id(contest):
-    # tasks = Task.query.filter_by(active=True).join(ContestTask.query.filter_by(id=c_id)).all()
     try:
-        tasks = Task.query.filter_by(active=True).join(contest.contest_tasks).all()
-        # tasks = Task.query.filter_by(active=True).join(Contest.query.get(int(c_id)).contest_tasks)
+        tasks = Task.query.filter_by(active=True). \
+            join(Contest.contest_tasks). \
+            filter(Contest.id == contest.id). \
+            all()
+
+        task_ids = [task.id for task in tasks]
+
+        solved_tasks = get_solved_task_builder(task_ids, sort=False). \
+            add_columns(func.count(SolvedTask.id)). \
+            group_by(SolvedTask.task_id)
+
+        solved_tasks = {solved.task_id: solves_num for solved, solves_num in solved_tasks}
+
     except AttributeError:
         return None
     else:
-        return get_task_map(tasks)
+        return get_task_map(tasks, solved_tasks)
 
-def get_task_map(task):
-    task_map = {}
+
+def get_task_map(task, solve_map):
+    task_map = defaultdict(list)
     for i in task:
-        if i.category not in task_map.keys():
-            task_map[i.category] = []
-        task_map[i.category].append((i.id, i.cost))
+        solves = solve_map.get(i.id) or 0
+        task_map[i.category].append({'id': i.id, 'cost': i.cost, 'solves_num': solves})
     return task_map

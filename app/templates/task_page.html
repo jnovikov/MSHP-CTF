@@ -1,27 +1,39 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="row">
-  <div class="medium-6 medium-centered large-4 large-centered columns">
+    <div class="row">
+        <div class="medium-6 medium-centered large-4 large-centered columns">
 
-    <form action="" method="post">
+            <form action="" method="post">
 
-{#      <div class="row column">#}
-        <h4 class="text-center">{{ name|safe }}</h4>
-        <h5 class="text-center">{{ category }}/{{ cost }}</h5>
-        <h5 class="text-center">{{ desc|safe }}</h5>
-        {% if file != "" %}
-          <h5 class="text-center"><a href="/static/{{file}}">{{file}}</a></h5>
-        {% endif %}
-        <label>Сдать флаг!
-          <input type="text" name="flag" placeholder="flag{Ucucucuga}">
-        </label>
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-        <p class="text-center"><button type="submit" class="button expanded">Сдать</button></p>
-        <p class="text-center"><a href="/report">Что-то пошло не так?</a></p>
-{#      </div>#}
-    </form>
-
-  </div>
-</div>
+                {#      <div class="row column">#}
+                <h4 class="text-center">{{ name|safe }}</h4>
+                <h5 class="text-center">{{ category }}/{{ cost }}</h5>
+                <h5 class="text-center">{{ desc|safe }}</h5>
+                {% if file != "" %}
+                    <h5 class="text-center"><a href="/static/{{ file }}">{{ file }}</a></h5>
+                {% endif %}
+                <label>Сдать флаг!
+                    <input type="text" name="flag" placeholder="flag{Ucucucuga}">
+                </label>
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <p class="text-center">
+                    <button type="submit" class="button expanded">Сдать</button>
+                </p>
+            </form>
+            {% if solved %}
+                <h5>First bloods:</h5>
+                <ol>
+                    {% for solve in solved %}
+                        <li><a href="{{ url_for('view.user_view',user_id=solve.User.id) }}">{{ solve.User.login }}</a>
+                        </li>
+                    {% endfor %}
+                </ol>
+            {% else %}
+                <h5>First blood'а еще нет. Ты можешь быть первым</h5>
+            {% endif %}
+        </div>
+        <p class="text-center"><a href="{{ url_for('view.get_solvers_page', _id=id) }}">Полный список решивших</a></p>
+    </div>
+    <p class="text-center"><a href="/report">Что-то пошло не так?</a></p>
 
 {% endblock %}
