@@ -50,8 +50,8 @@ def get_solved_task_builder(task_ids, sort=True):
 def get_tasks_by_contest_id(contest):
     try:
         tasks = Task.query.filter_by(active=True). \
-            join(Contest.contest_tasks). \
-            filter(Contest.id == contest.id). \
+            join(ContestTask.task). \
+            filter(ContestTask.contest_id == contest.id). \
             all()
 
         task_ids = [task.id for task in tasks]
