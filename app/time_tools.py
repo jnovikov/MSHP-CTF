@@ -14,4 +14,4 @@ class GMT3(tzinfo):
 
 def get_current_time():
     dt = datetime.now(GMT3())
-    return dt.strftime("%x %X")
+    return dt.strftime("%Y-%m-%d %H:%M:%S")
