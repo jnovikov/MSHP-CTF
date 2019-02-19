@@ -43,7 +43,7 @@ def get_task(_id):
 def get_solved_task_builder(task_ids, sort=True):
     query = SolvedTask.query.filter(SolvedTask.task_id.in_(task_ids))
     if sort:
-        query = query.order_by(-SolvedTask.time)
+        query = query.order_by(SolvedTask.time)
     return query
 
 
