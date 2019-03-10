@@ -17,6 +17,7 @@ def index():
 
 
 @view.route('/login', methods=['POST', 'GET'])
+@limiter.limit("5 per second")
 def login():
     form = LoginForm()
     if form.validate_on_submit():
@@ -37,6 +38,7 @@ def login():
 
 
 @view.route('/register', methods=['POST', 'GET'])
+@limiter.limit("5 per second")
 def register():
     form = RegisterForm()
     context = dict(form=form)
