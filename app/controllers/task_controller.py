@@ -67,6 +67,10 @@ def get_tasks_by_contest_id(contest):
     else:
         return get_task_map(tasks, solved_tasks)
 
+def get_contest_id_by_task(task):
+    contest_task = ContestTask.query.filter_by(task_id=task['id']).first()
+    return contest_task.contest_id
+
 
 def get_task_map(task, solve_map):
     task_map = defaultdict(list)

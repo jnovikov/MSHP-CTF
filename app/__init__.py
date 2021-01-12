@@ -29,4 +29,3 @@ from app.views.contest_view import contest
 from app.views import admin_view
 app.register_blueprint(view)
 app.register_blueprint(contest)
-

@@ -1,7 +1,7 @@
 from flask import render_template, request, redirect, url_for, abort, Blueprint, flash
 
 from app import limiter, app
-from app.controllers.task_controller import get_task, check_flag, get_solved_task_builder
+from app.controllers.task_controller import get_task, check_flag, get_solved_task_builder, get_contest_id_by_task
 from app.controllers.user_controller import add_user, check_user, get_user_scores, get_user_by_id, get_all_groups
 from app.forms import LoginForm, RegisterForm
 from app.login_tools import login_required, get_base_data, login_user, logout_user
@@ -75,6 +75,7 @@ def register():
 def get_task_page(_id):
     context = get_base_data()
     task = get_task(_id)
+    contest_id = get_contest_id_by_task(task)
     if not task or not task['active']:
         abort(404)
     if request.method == 'GET':
@@ -87,6 +88,8 @@ def get_task_page(_id):
         message = check_flag(_id, context['u_id'], usr_flag)
         context = get_base_data()
         context.update(message=message)
+        context.update(contest_id=contest_id)
+        context.update(task_id=task['id'])
         return render_template('message.html', **context)
 
 
