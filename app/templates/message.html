@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-
     <h1 style="width: 100%;margin-top: 20%; text-align: center;">{{message}}</h1>
-
+    <h5 style="width: 100%;margin-top: 20%; text-align: center;"><a href="/contests/{{contest_id}}">Вернуться к контесту</a></h5>
+    <h5 style="width: 100%;margin-top: 20px; text-align: center;"><a href="/task/{{task_id}}">Вернуться к таску</a></h5>
 {% endblock %}
