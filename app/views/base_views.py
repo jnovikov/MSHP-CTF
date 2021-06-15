@@ -1,10 +1,13 @@
+from collections import defaultdict
+
 from flask import render_template, request, redirect, url_for, abort, Blueprint, flash
 
 from app import limiter, app
-from app.controllers.task_controller import get_task, check_flag, get_solved_task_builder
-from app.controllers.user_controller import add_user, check_user, get_user_scores, get_user_by_id, get_all_groups
+from app.controllers.task_controller import get_task, check_flag, solved_task_query_builder, SubmitResult
+from app.controllers.user_controller import add_user, check_user, get_user_scores, get_user_by_id, get_all_groups, \
+    get_groups_builder, get_groups_with_user_info, add_user_to_the_group
 from app.forms import LoginForm, RegisterForm
-from app.login_tools import login_required, get_base_data, login_user, logout_user
+from app.login_tools import login_required, get_base_data, login_user, logout_user, user_id
 from app.views import LogoutMessage
 
 view = Blueprint('view', __name__, static_folder='static', template_folder='templates')
@@ -27,7 +30,7 @@ def login():
         if user is None:
             flash('Неправильный логин или пароль')
             return render_template('login.html', form=form)
-        if not user.active:
+        if app.config.get('CHECK_USER_ACTIVE', True) and not user.active:
             flash("Пользователь неактивен")
             return render_template('login.html', form=form)
         else:
@@ -46,7 +49,6 @@ def register():
         b = form.data
         del b['confirm']
         del b['csrf_token']
-        print(b)
         flag = add_user(b)
         if flag:
             # login_user(get_user(form.login.data))
@@ -77,16 +79,23 @@ def get_task_page(_id):
     task = get_task(_id)
     if not task or not task['active']:
         abort(404)
+    contest_id = request.args.get('c_id', None)
     if request.method == 'GET':
         context.update(task)
-        first_blood_users_show = app.config.get('FIRST_BLOOD_SHOW_COUNT') or 3
-        context['solved'] = get_solved_task_builder((_id,)).limit(first_blood_users_show).all()
+        first_blood_users_show = app.config.get('FIRST_BLOOD_SHOW_COUNT', 3)
+        context['solved'] = solved_task_query_builder((_id,)).limit(first_blood_users_show).all()
         return render_template('task_page.html', **context)
     else:
         usr_flag = request.form['flag']
-        message = check_flag(_id, context['u_id'], usr_flag)
+        status = check_flag(_id, context['u_id'], usr_flag)
         context = get_base_data()
-        context.update(message=message)
+        back_url = request.url
+        if (status == SubmitResult.OK or status == SubmitResult.ALREADY_SOLVED) and contest_id is not None:
+            back_url = url_for('contest_view.contest_detail', c_id=contest_id)
+
+        context['contest_id'] = contest_id
+        context['back_url'] = back_url
+        context.update(message=status.status_message(), )
         return render_template('message.html', **context)
 
 
@@ -99,7 +108,7 @@ def get_solvers_page(_id):
     if not task or not task['active']:
         abort(404)
     context.update(task)
-    context['solved'] = get_solved_task_builder((_id,)).all()
+    context['solved'] = solved_task_query_builder((_id,)).all()
     return render_template("solvers.html", **context)
 
 
@@ -139,5 +148,26 @@ def report_view():
 @view.route('/groups')
 def groups_view():
     context = get_base_data()
-    context['groups'] = get_all_groups()
+    groups = defaultdict(dict)
+    for g in get_all_groups():
+        groups[g.id]['group'] = g
+        groups[g.id]['joined'] = False
+    joined_groups = get_groups_with_user_info(user_id()).all()
+    for g in joined_groups:
+        groups[g.id]['joined'] = True
+    context['groups'] = groups
+
     return render_template("groups.html", **context)
+
+
+@view.route('/groups/<g_id>/join', methods=['POST', 'GET'])
+def group_join_view(g_id):
+    group = get_groups_builder().filter_by(id=g_id).first()
+    if group is None:
+        abort(404)
+        return
+    if request.method == 'GET':
+        return render_template('join_group.html', group=group)
+    add_user_to_the_group(group, user_id())
+    return redirect(url_for('.groups_view'))
+

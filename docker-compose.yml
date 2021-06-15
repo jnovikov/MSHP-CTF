@@ -1,0 +1,11 @@
+version: '2'
+services:
+  python_app:
+    build: .
+    volumes:
+      - "./data:/data"
+    environment:
+      - DB_FILE=/data/new.db
+      - DEBUG=false
+    ports:
+    - "9090:9090"

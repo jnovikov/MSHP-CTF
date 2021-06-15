@@ -39,3 +39,6 @@ def get_base_data():
         response['u_id'] = t_id
         response['solved'] = get_team_solved_tasks(t_id)
     return response
+
+def user_id():
+    return session.get('u_id')

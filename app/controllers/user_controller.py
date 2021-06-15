@@ -72,5 +72,18 @@ def get_user_scores(group_id=None):
     return query.order_by(-User.score)
 
 
+def get_groups_builder():
+    return Group.query
+
+
 def get_all_groups():
     return Group.query.all()
+
+
+def get_groups_with_user_info(user_id):
+    return Group.query.join(Group.users, isouter=True).filter(User.id == user_id)
+
+def add_user_to_the_group(group, user_id):
+    group.users.append(get_user_by_id(user_id))
+    db.session.add(group)
+    db.session.commit()

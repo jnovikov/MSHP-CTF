@@ -13,7 +13,10 @@
             {% else %}
             <div class="callout secondary">
             {% endif %}
-            <a href="/task/{{ task.id }}"> <h4><p align="center">{{task.cost}}</p></h4></a>
+            <a href="{{ url_for('view.get_task_page', _id=task.id, c_id=contest_id) }}">
+                <h4><p align="center">{{task.cost}}</p></h4>
+            </a>
+{#            <a href="/task/{{ task.id }}"> <h4><p align="center">{{task.cost}}</p></h4></a>#}
             <p align="center">Солвов : {{ task.solves_num }}</p>
             </div>
         </div>

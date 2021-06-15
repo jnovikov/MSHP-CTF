@@ -1,6 +1,32 @@
 {% extends "base.html" %}
 {% block content %}
 
-    <h1 style="width: 100%;margin-top: 20%; text-align: center;">{{message}}</h1>
+    <h1 style="width: 100%;margin-top: 20%; text-align: center;">{{ message }}</h1>
+    <h5 style="width: 100%; margin-top: 25%; text-align: center">Перенаправление <a href="{{ back_url }}">обратно</a> через: <span
+            id="countDownId">5</span></h5>
+    <script>
+        let redirectTime = 4;
+        let secLeft = redirectTime;
+
+        function changeVal() {
+            document.getElementById('countDownId').textContent = secLeft.toString();
+        }
+
+        function countdown() {
+            secLeft--;
+            changeVal();
+        }
+
+        function pageRedirect() {
+            let url = "{{ back_url }}";
+            window.location.replace(url);
+        }
+
+        changeVal();
+        setInterval(countdown, 1000);
+        setTimeout(pageRedirect, redirectTime * 1000);
+
+    </script>
+
 
 {% endblock %}

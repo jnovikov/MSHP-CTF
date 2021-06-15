@@ -26,5 +26,13 @@ def contest_detail(c_id):
         abort(404)
     task_map = get_tasks_by_contest_id(curr_contest)
     context.update(task_map=task_map)
+    context.update(contest_id=c_id)
     return render_template('tasks.html', **context)
 
+# @contest.route('/<c_id>/score')
+# @limiter.limit("10 per second")
+# def contest_score(c_id):
+#     context = get_base_data()
+#     curr_contest = Contest.query.get(int(c_id))
+#     if not curr_contest.is_active():
+#         abort(404)

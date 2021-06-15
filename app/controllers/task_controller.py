@@ -3,6 +3,23 @@ from app.models.db_models import Task, Contest, ContestTask, SolvedTask
 from app.controllers.user_controller import solve_task, get_team_solved_tasks
 from sqlalchemy import func
 from collections import defaultdict
+from enum import Enum
+
+
+class SubmitResult(Enum):
+    OK = 1
+    ALREADY_SOLVED = 2
+    NOT_FOUND = 3
+    WRONG_ANSWER = 4
+
+    def status_message(self):
+        _STATUS_MESSAGES = {
+            self.OK: "Правильно!",
+            self.NOT_FOUND: "Нет такого таска",
+            self.ALREADY_SOLVED: "Вы уже решили этот таск",
+            self.WRONG_ANSWER: "Неа :("
+        }
+        return _STATUS_MESSAGES[self]
 
 
 def add_task(dictionary):
@@ -20,14 +37,14 @@ def check_flag(_id, u_id, flag):
     task = Task.query.filter_by(id=_id).first()
     solved = get_team_solved_tasks(u_id)
     if int(_id) in solved:
-        return 'Вы уже решили этот таск'
+        return SubmitResult.ALREADY_SOLVED
     if task is None:
-        return 'Нет такого таска'
+        return SubmitResult.NOT_FOUND
     if task.flag == flag:
         solve_task(u_id, task)
-        return "Правильно!"
+        return SubmitResult.OK
     else:
-        return "Неа :("
+        return SubmitResult.WRONG_ANSWER
 
 
 def get_task(_id):
@@ -40,7 +57,7 @@ def get_task(_id):
     return task
 
 
-def get_solved_task_builder(task_ids, sort=True):
+def solved_task_query_builder(task_ids, sort=True):
     query = SolvedTask.query.filter(SolvedTask.task_id.in_(task_ids))
     if sort:
         query = query.order_by(SolvedTask.time)
@@ -56,7 +73,7 @@ def get_tasks_by_contest_id(contest):
 
         task_ids = [task.id for task in tasks]
 
-        solved_tasks = get_solved_task_builder(task_ids, sort=False). \
+        solved_tasks = solved_task_query_builder(task_ids, sort=False). \
             add_columns(func.count(SolvedTask.id)). \
             group_by(SolvedTask.task_id)
 

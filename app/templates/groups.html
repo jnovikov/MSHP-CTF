@@ -3,10 +3,16 @@
 {% if groups %}
 <div class="row">
   <div class="medium-6 medium-centered large-4 large-centered columns">
-      {% for group in groups %}
+      {% for g in groups.values() %}
       <div class="row column log-in-form">
-        <h3 class="text-center">{{ group.name }}</h3>
-        <p class="text-center"><a href="{{ group.get_score_link() }}">Скорборд этой группы</a></p>
+        <h3 class="text-center">{{ g.group.name }}</h3>
+        <p class="text-center"><a href="{{ g.group.get_score_link() }}">Скорборд этой группы</a></p>
+        {% if g.joined %}
+          <p class="text-center">Вы состоите в этой группе</p>
+        {% else %}
+          <p class="text-center"><a href="{{ url_for('view.group_join_view', g_id=g.group.id) }}">Присоединиться</a></p>
+        {% endif %}
+
       </div>
       {% endfor %}
 

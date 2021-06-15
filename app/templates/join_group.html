@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="row">
+        <div class="large-6 large-centered columns">
+            <div class="callout secondary">
+                <p>Вы собираетесь присоединиться к группе <b>"{{ group.name }}"</b></p>
+                <form method="post" action="">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                    <div class="medium-4 medium-centered">
+                        <button type="submit" class="button expanded">Ага</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

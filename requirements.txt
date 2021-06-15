@@ -1,6 +1,10 @@
-flask
-Flask-WTF
-Flask-SQLAlchemy
+Flask
+Flask-Admin
+Flask-Bootstrap
 Flask-Limiter
-Flask-admin
+Flask-SocketIO
+Flask-SQLAlchemy
+Flask-WTF
+werkzeug
+gunicorn
 gevent
