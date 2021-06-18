@@ -9,10 +9,9 @@
         <h4 class="text-center">{{ contest.description }}</h4>
         <p class="text-center"><a href="{{ contest.get_link() }}">Решать</a></p>
       </div>
-      <p class="text-center"><a href="/report">Что-то пошло не так?</a></p>
       {% endfor %}
-
   </div>
+    <p class="text-center"><a href="/report">Что-то пошло не так?</a></p>
 </div>
 {% else %}
     Контестов еще нет. Возможно они будут позже
