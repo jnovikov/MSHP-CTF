@@ -1,7 +1,7 @@
 bidict==0.21.2
 click==8.0.1
 dominate==2.6.0
-Flask==2.0.1
+Flask==2.3.2
 Flask-Admin==1.5.8
 Flask-Bootstrap==3.3.7.1
 Flask-Limiter==1.4
